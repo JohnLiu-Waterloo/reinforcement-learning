@@ -1,3 +1,5 @@
+# Section 2.2
+
 import numpy as np
 import random
 
