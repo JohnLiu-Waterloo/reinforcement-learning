@@ -5,6 +5,13 @@ import random
 
 DEBUG = False
 
+n = 25
+eps = 0.1
+gamma = 0.95
+alpha = 0.1
+PLUS_PLANNING = False
+K = 1e-4
+
 grid = [
     [0, 0, 0, 0, 0, 0, 0, 0, 2],
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -45,12 +52,6 @@ def move(S, A):
 
     return y, x
 
-n = 25
-eps = 0.1
-gamma = 0.95
-alpha = 0.1
-PLUS_PLANNING = False
-K = 3e-4
 
 Q = np.zeros((6, 9, 4))
 L = np.zeros((6, 9, 4))
@@ -122,7 +123,8 @@ for step in range(nsteps):
         SS = list(seen.keys())[random.randint(0, len(seen)-1)]
         AA = random.randint(0, 3)       # consider all possible actions
         RR, SS_new = M[SS[0]][SS[1]][AA]
-        RR += K * math.sqrt(step-L[SS[0]][SS[1]][AA])
+        if not PLUS_PLANNING:
+            RR += K * math.sqrt(step-L[SS[0]][SS[1]][AA])
 
         if DEBUG:
             aa_new = 0
